@@ -85,7 +85,7 @@ public class MyEQuakeListRecyclerViewAdapter extends RecyclerView.Adapter<MyEQua
 
     public int colorCalc(float strength)
     {
-        int color = (Integer) new ArgbEvaluator().evaluate(strength/5f, 0x00ff00, 0xff0000);
+        int color = (Integer) new ArgbEvaluator().evaluate(strength/3f, 0x00ff00, 0xff0000);
         String hexColor = String.format("#%06X", (0xFFFFFF & color));
         return Color.parseColor(hexColor);
     }
