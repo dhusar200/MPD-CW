@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/EQuakeListFragment">
+
+    <fragment
+        android:id="@+id/EQuakeListFragment"
+        android:name="org.me.gcu.earthquakecw.Fragments.EQuakeListFragment"
+        android:label="fragment_item_list"
+        tools:layout="@layout/fragment_item_list" >
+    </fragment>
+    <fragment
+        android:id="@+id/EQuakeMap"
+        android:name="org.me.gcu.earthquakecw.Fragments.EQuakeMap"
+        android:label="fragment_e_quake_map"
+        tools:layout="@layout/fragment_e_quake_map" />
+    <fragment
+        android:id="@+id/filter_list"
+        android:name="org.me.gcu.earthquakecw.FilterListFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragmentFilterList" />
+</navigation>

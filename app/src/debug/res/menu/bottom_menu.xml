@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent">
+    <item
+        android:id="@+id/EQuakeListFragment"
+        android:enabled="true"
+        android:icon="@drawable/list"
+        android:title="List"/>
+    <item
+        android:id="@+id/EQuakeMap"
+        android:enabled="true"
+        android:icon="@drawable/map"
+        android:title="Map"/>
+    <item
+        android:id="@+id/filter_list"
+        android:enabled="true"
+        android:icon="@drawable/filter_list"
+        android:title="Filter List"/>
+</menu>
