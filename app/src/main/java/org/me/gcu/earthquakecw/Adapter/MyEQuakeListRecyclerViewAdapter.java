@@ -3,13 +3,12 @@ package org.me.gcu.earthquakecw.Adapter;
 import androidx.recyclerview.widget.RecyclerView;
 import android.animation.ArgbEvaluator;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.me.gcu.earthquakecw.EarthQuake;
+import org.me.gcu.earthquakecw.Data.EarthQuake;
 import org.me.gcu.earthquakecw.R;
 import org.me.gcu.earthquakecw.dummy.DummyContent.DummyItem;
 
@@ -17,6 +16,7 @@ import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
+ * THis is adapter which is used to create the recyclerviewer list
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyEQuakeListRecyclerViewAdapter extends RecyclerView.Adapter<MyEQuakeListRecyclerViewAdapter.ViewHolder> {
@@ -83,6 +83,13 @@ public class MyEQuakeListRecyclerViewAdapter extends RecyclerView.Adapter<MyEQua
         void onNoteClick(int position);
     }
 
+    /**
+     * Method to get a color between green and red based on the strength of the earthquake
+     * for testing, max magnitude is set to 3 as all the earthquakes are max 2.3magnitude, so color
+     * coding would be bearly seen
+     * @param strength - of the earthquake
+     * @return - color code to color the earthquake identifier
+     */
     public int colorCalc(float strength)
     {
         int color = (Integer) new ArgbEvaluator().evaluate(strength/3f, 0x00ff00, 0xff0000);

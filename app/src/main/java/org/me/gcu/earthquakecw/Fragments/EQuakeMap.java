@@ -21,23 +21,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.me.gcu.earthquakecw.EarthQuake;
-import org.me.gcu.earthquakecw.EarthQuakeActivity;
+import org.me.gcu.earthquakecw.Data.EarthQuake;
+import org.me.gcu.earthquakecw.UI.EarthQuakeActivity;
 import org.me.gcu.earthquakecw.R;
-import org.me.gcu.earthquakecw.RetrieveData;
+import org.me.gcu.earthquakecw.Data.RetrieveData;
 import org.me.gcu.earthquakecw.UI.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.WeakHashMap;
-import java.util.concurrent.ExecutionException;
+
+/**
+ * fragment logic for the map fragment
+ * As explained in the MainActivity, arrayList is used for better performance
+ * Using HashMap to keep all the circles matched with specific earthquake, so they can be clicked
+ * and redirected to specific data about the earthquake
+ */
 
 public class EQuakeMap extends Fragment {
 
     private ArrayList<EarthQuake> quakeList;
-    private RetrieveData getXML = new RetrieveData();
     private HashMap<Circle, EarthQuake> hashMap;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -94,7 +97,12 @@ public class EQuakeMap extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        quakeList = ((MainActivity) getActivity()).getData();
+        if(savedInstanceState!=null) {
+            quakeList = savedInstanceState.getParcelableArrayList("earthQuake");
+        }
+        else{
+            quakeList = ((MainActivity) getActivity()).getData();
+        }
         Log.e("MyTag", "Passed Map");
 
         return inflater.inflate(R.layout.fragment_e_quake_map, container, false);
@@ -110,10 +118,27 @@ public class EQuakeMap extends Fragment {
         }
     }
 
+    /**
+     * Method to get a color between green and red based on the strength of the earthquake
+     * for testing, max magnitude is set to 3 as all the earthquakes are max 2.3magnitude, so color
+     * coding would be bearly seen
+     * @param strength - of the earthquake
+     * @return - color code to color the earthquake identifier
+     */
     public int colorCalc(float strength)
     {
         int color = (Integer) new ArgbEvaluator().evaluate(strength/3f, 0x00ff00, 0xff0000);
         String hexColor = String.format("#%06X", (0xFFFFFF & color));
         return Color.parseColor(hexColor);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putParcelableArrayList("earthQuake", quakeList);
+        // etc.
     }
 }

@@ -4,36 +4,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.me.gcu.earthquakecw.Adapter.MyEQuakeListRecyclerViewAdapter;
-import org.me.gcu.earthquakecw.EarthQuake;
-import org.me.gcu.earthquakecw.EarthQuakeActivity;
+import org.me.gcu.earthquakecw.Data.EarthQuake;
+import org.me.gcu.earthquakecw.UI.EarthQuakeActivity;
 import org.me.gcu.earthquakecw.R;
-import org.me.gcu.earthquakecw.RetrieveData;
+import org.me.gcu.earthquakecw.Data.RetrieveData;
 import org.me.gcu.earthquakecw.UI.MainActivity;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * A fragment representing a list of Items.
+ * As explained in the MainActivity, arrayList is used for better performance
  */
 public class EQuakeListFragment extends Fragment implements MyEQuakeListRecyclerViewAdapter.OnNoteListener{
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private ArrayList<EarthQuake> quakeList;
@@ -51,9 +47,6 @@ public class EQuakeListFragment extends Fragment implements MyEQuakeListRecycler
     @SuppressWarnings("unused")
     public static EQuakeListFragment newInstance(int columnCount) {
         EQuakeListFragment fragment = new EQuakeListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -61,14 +54,13 @@ public class EQuakeListFragment extends Fragment implements MyEQuakeListRecycler
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        quakeList = getArguments().getParcelableArrayList("quakeList");
-//        Log.e("MyTag77",((MainActivity) getActivity()).test());
-
-        //if (((MainActivity) getActivity()).getData() != null)
-        {
-            quakeList = ((MainActivity) getActivity()).getData();
-            Log.e("MyTag", "Passed List");
+        if(savedInstanceState!=null) {
+            quakeList = savedInstanceState.getParcelableArrayList("earthQuake");
         }
+        else{
+            quakeList = ((MainActivity) getActivity()).getData();
+        }
+        Log.e("MyTag", "Passed List");
     }
 
     @Override
@@ -100,5 +92,15 @@ public class EQuakeListFragment extends Fragment implements MyEQuakeListRecycler
         i.putExtras(bundle);
         startActivity(i);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putParcelableArrayList("earthQuake", quakeList);
+        // etc.
     }
 }
